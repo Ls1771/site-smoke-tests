@@ -1,9 +1,9 @@
 name: Daily Weather Presence
 
 on:
-  push:                # lets you test it immediately on push
+  push:
     branches: [ main ]
-  workflow_dispatch:   # adds the “Run workflow” button
+  workflow_dispatch:
   schedule:
     - cron: '30 12 * * *'   # 05:30 AM PT (12:30 UTC)
 
@@ -15,7 +15,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install -r requirements.txt
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Debug list files
+        run: |
+          pwd
+          ls -R
+
       - name: Run smoke test
         env:
           WEATHER_URL: 'https://www.weather.gov/'
