@@ -1,1 +1,3 @@
-selenium echo webdriver-manager echo pytest
+selenium  
+webdriver-manager 
+ pytest
