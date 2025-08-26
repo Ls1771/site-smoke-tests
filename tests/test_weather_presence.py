@@ -2,6 +2,7 @@ import os, re
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -17,7 +18,10 @@ def driver():
     opts.add_argument("--no-sandbox")
     opts.add_argument("--disable-gpu")
     opts.add_argument("--window-size=1280,800")
-    drv = webdriver.Chrome(ChromeDriverManager().install(), options=opts)
+
+    
+    service = Service(ChromeDriverManager().install())
+    drv = webdriver.Chrome(service=service, options=opts)
     drv.set_page_load_timeout(30)
     yield drv
     drv.quit()
@@ -31,3 +35,4 @@ def test_weather_page_presence(driver):
     assert title, "Page title is empty"
     if TITLE_KEYWORD:
         assert re.search(TITLE_KEYWORD, title, re.I), f"Title '{title}' missing '{TITLE_KEYWORD}'"
+
